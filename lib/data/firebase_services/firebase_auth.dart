@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram/auth/storage.dart';
+import 'package:instagram/data/firebase_services/storage.dart';
 import 'package:instagram/data/firebase_services/firestor.dart';
 import 'package:instagram/utils/exception.dart';
 
