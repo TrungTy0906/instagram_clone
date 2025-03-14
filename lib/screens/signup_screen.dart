@@ -58,7 +58,11 @@ class _SignupScreenState extends State<SignupScreen> {
             Center(
               child: InkWell(
                 onTap: () async {
-                  File _imagefile = await Imagepicker().uploadImage('gallery');
+                  File? _imagefile = await Imagepicker().uploadImage('gallery');
+
+                  if (_imagefile != null) {
+                    print('Đường dẫn ảnh ${_imagefile.path}');
+                  }
                   setState(() {
                     _imageFile = _imagefile;
                   });
@@ -121,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(
               height: 10.h,
             ),
-            signUp(),
+            SignUp(),
             SizedBox(height: 10.h),
             have(),
           ],
@@ -155,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget signUp() {
+  Widget SignUp() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
@@ -167,7 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 passwordcomfirm: passwordComfirm.text,
                 username: username.text,
                 bio: bio.text,
-                profile: File(""));
+                profile: _imageFile ?? File(""));
           } on Exceptions catch (e) {
             dialogBuilder(context, e.massage);
           }

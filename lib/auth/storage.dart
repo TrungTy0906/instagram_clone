@@ -13,6 +13,10 @@ class StorageMethod {
     Reference ref =
         _storage.ref().child(name).child(_auth.currentUser!.uid).child(uid);
 
+    if (!file.existsSync()) {
+      throw Exception("File không tồn tại: ${file.path}");
+    }
+
     UploadTask uploadTask = ref.putFile(file);
     TaskSnapshot taskSnapshot = await uploadTask;
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();

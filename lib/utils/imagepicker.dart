@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class Imagepicker {
-  Future<File> uploadImage(String inputSource) async {
+  Future<File?> uploadImage(String inputSource) async {
     final picker = ImagePicker();
     final XFile? pickerImage = await picker.pickImage(
         source:
             inputSource == 'camera' ? ImageSource.camera : ImageSource.gallery);
-    File imageFile = File(pickerImage!.path);
+    if (pickerImage == null) {
+      print('Người dùng không chọn ảnh');
+      return null;
+    }
+    File imageFile = File(pickerImage.path);
     return imageFile;
   }
 }
