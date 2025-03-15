@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram/main.dart';
 import 'package:instagram/utils/image_cached.dart';
+import 'package:instagram/widgets/comment.dart';
 
 class PostWidget extends StatelessWidget {
   final snapshot;
@@ -67,9 +68,32 @@ class PostWidget extends StatelessWidget {
                   SizedBox(
                     width: 17.w,
                   ),
-                  Image.asset(
-                    'assets/images/comment.webp',
-                    height: 28.h,
+                  GestureDetector(
+                    onTap: () {
+                      showBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: DraggableScrollableSheet(
+                              maxChildSize: 0.6,
+                              initialChildSize: 0.5,
+                              minChildSize: 0.2,
+                              builder: (context, ScrollController) {
+                                return Comment(snapshot['postId'], 'posts');
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/images/comment.webp',
+                      height: 28.h,
+                    ),
                   ),
                   SizedBox(
                     width: 17.w,

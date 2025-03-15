@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram/utils/image_cached.dart';
+import 'package:instagram/widgets/comment.dart';
 import 'package:video_player/video_player.dart';
 
 class ReelItem extends StatefulWidget {
@@ -90,10 +91,33 @@ class _ReelItemState extends State<ReelItem> {
               SizedBox(
                 height: 15.h,
               ),
-              Icon(
-                Icons.comment,
-                color: Colors.white,
-                size: 28.w,
+              GestureDetector(
+                onTap: () {
+                  showBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: DraggableScrollableSheet(
+                          maxChildSize: 0.6,
+                          initialChildSize: 0.5,
+                          minChildSize: 0.2,
+                          builder: (context, ScrollController) {
+                            return Comment(widget.snapshot['postId'], 'reels');
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Icon(
+                  Icons.comment,
+                  color: Colors.white,
+                  size: 28.w,
+                ),
               ),
               SizedBox(
                 height: 5.h,

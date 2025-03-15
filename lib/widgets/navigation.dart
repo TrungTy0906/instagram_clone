@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram/main.dart';
 import 'package:instagram/screens/add_screen.dart';
+import 'package:instagram/screens/explore.dart';
 import 'package:instagram/screens/explore_screen.dart';
 import 'package:instagram/screens/home.dart';
 import 'package:instagram/screens/profile_screen.dart';
