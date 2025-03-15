@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram/screens/add_post_text_screen.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -43,7 +43,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       for (var asset in media) {
         temp.add(
           FutureBuilder(
-            future: asset.thumbnailDataWithSize(ThumbnailSize(200, 200)),
+            future: asset.thumbnailDataWithSize(const ThumbnailSize(200, 200)),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done)
                 return Container(
@@ -73,8 +73,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   void initState() {
-    // TODO: implement activate
-    super.activate();
+    super.initState();
     _fetchNewMedia();
   }
 
@@ -84,7 +83,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "New Post",
           style: TextStyle(color: Colors.black),
         ),
@@ -116,7 +115,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               height: 375.h,
               child: GridView.builder(
                 itemCount: _mediaList.isEmpty ? _mediaList.length : 1,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,

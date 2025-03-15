@@ -9,7 +9,6 @@ class Imagepicker {
         source:
             inputSource == 'camera' ? ImageSource.camera : ImageSource.gallery);
     if (pickerImage == null) {
-      print('Người dùng không chọn ảnh');
       return null;
     }
     File imageFile = File(pickerImage.path);

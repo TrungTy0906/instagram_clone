@@ -68,4 +68,24 @@ class FirebaseFirestor {
     });
     return true;
   }
+
+  Future<bool> CreateReels({
+    required String video,
+    required String caption,
+  }) async {
+    var uid = Uuid().v4();
+    DateTime data = new DateTime.now();
+    UserModel user = await getUser();
+    await _firebaseFirestore.collection('reels').doc(uid).set({
+      'reelsVideo': video,
+      'userName': user.username,
+      'profileImage': user.profile,
+      'caption': caption,
+      'uid': _auth.currentUser!.uid,
+      'postId': uid,
+      'like': [],
+      'time': data,
+    });
+    return true;
+  }
 }
