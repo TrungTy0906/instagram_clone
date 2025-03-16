@@ -19,6 +19,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseFirestore _firebaseStorage = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  int post_lenght = 0;
+  bool yourse = false;
+  List following = [];
+  bool follow = false;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -54,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       );
                     }
-                    var snapLength = snapshot.data!.docs.length;
+                    post_lenght = snapshot.data!.docs.length;
                     return SliverGrid(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         var snap = snapshot.data!.docs[index];
@@ -65,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       PostScreen(snap.data())));
                             },
                             child: ImageCached(snap['postImage']));
-                      }, childCount: snapLength),
+                      }, childCount: post_lenght),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
@@ -108,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 36.w,
                       ),
                       Text(
-                        '10',
+                        post_lenght.toString(),
                         style: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.bold),
                       ),

@@ -16,6 +16,7 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final search = TextEditingController();
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  bool show = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,49 +25,89 @@ class _ExploreScreenState extends State<ExploreScreen> {
           child: CustomScrollView(
         slivers: [
           SearchBox(),
-          StreamBuilder(
+          if (!show)
+            StreamBuilder(
               stream: _firebaseFirestore.collection('posts').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return SliverToBoxAdapter(
+                  return const SliverToBoxAdapter(
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
                   );
                 }
                 return SliverGrid(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final snap = snapshot.data!.docs[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => PostScreen(
-                                snap.data(),
-                              ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final snap = snapshot.data!.docs[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PostScreen(
+                              snap.data(),
                             ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
                           ),
-                          child: ImageCached(snap['postImage']),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
                         ),
-                      );
-                    }, childCount: snapshot.data!.docs.length),
-                    gridDelegate: SliverQuiltedGridDelegate(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 3,
-                        crossAxisSpacing: 3,
-                        pattern: [
-                          QuiltedGridTile(2, 1),
-                          QuiltedGridTile(2, 2),
-                          QuiltedGridTile(1, 1),
-                          QuiltedGridTile(1, 1),
-                          QuiltedGridTile(1, 1),
-                        ]));
-              })
+                        child: ImageCached(snap['postImage']),
+                      ),
+                    );
+                  }, childCount: snapshot.data!.docs.length),
+                  gridDelegate: SliverQuiltedGridDelegate(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 3,
+                    crossAxisSpacing: 3,
+                    pattern: [
+                      const QuiltedGridTile(2, 1),
+                      const QuiltedGridTile(2, 2),
+                      const QuiltedGridTile(1, 1),
+                      const QuiltedGridTile(1, 1),
+                      const QuiltedGridTile(1, 1),
+                    ],
+                  ),
+                );
+              },
+            ),
+          if (!show)
+            StreamBuilder(
+              stream: _firebaseFirestore.collection('posts').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const SliverToBoxAdapter(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                return SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                  final snap = snapshot.data!.docs[index];
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 24.r,
+                            backgroundImage: NetworkImage(snap['profile']),
+                          ),
+                          SizedBox(
+                            width: 15.w,
+                          ),
+                          Text(snap['userName']),
+                        ],
+                      )
+                    ],
+                  );
+                }, childCount: snapshot.data!.docs.length));
+              },
+            ),
         ],
       )),
     );
@@ -98,6 +139,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
                 Expanded(
                     child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      if (value.length > 0) {
+                        show = true;
+                      } else {
+                        show = false;
+                      }
+                    });
+                  },
                   controller: search,
                   decoration: InputDecoration(
                     hintText: 'Search User',
